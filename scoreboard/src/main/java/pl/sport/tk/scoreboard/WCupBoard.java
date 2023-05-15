@@ -8,7 +8,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class WCupBoard implements Board {
 
-    private final Map<Game, BoardGame> gamesInProgress = new ConcurrentHashMap<>();
+    private final Map<Game, BoardGame> gamesInProgress;
+
+    private final BoardGameFactory boardGameFactory;
+
+    private final BoardGameScoreModifier scoreModifier;
+
+    public WCupBoard(BoardGameFactory boardGameFactory, BoardGameScoreModifier scoreModifier) {
+        this.boardGameFactory = Objects.requireNonNull(boardGameFactory);
+        this.scoreModifier = Objects.requireNonNull(scoreModifier);
+        this.gamesInProgress = new ConcurrentHashMap<>();
+    }
 
     @Override
     public BoardGame startGame(Game game) throws GameAlreadyStartedException {
@@ -17,7 +27,7 @@ public class WCupBoard implements Board {
 
     private BoardGame createBoardGameOrThrow(Game game, BoardGame boardGame) {
         if(boardGame == null) {
-            return new BoardGameDefault(game);
+            return boardGameFactory.startNewGame(game);
         }
         throw new GameAlreadyStartedException(game);
     }
@@ -30,7 +40,8 @@ public class WCupBoard implements Board {
     @Override
     public Optional<BoardGame> updateScore(ScoreUpdate scoreUpdate) {
         Objects.requireNonNull(scoreUpdate, "Score update cannot be null");
-        return Optional.empty();
+        return Optional.ofNullable(gamesInProgress.computeIfPresent(scoreUpdate.game(),
+                (game, boardGame) -> scoreModifier.updateScore(boardGame, scoreUpdate.gameScore())));
     }
 
     @Override
