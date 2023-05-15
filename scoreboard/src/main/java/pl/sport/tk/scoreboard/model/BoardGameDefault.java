@@ -2,6 +2,7 @@ package pl.sport.tk.scoreboard.model;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class BoardGameDefault implements BoardGame {
 
@@ -18,7 +19,7 @@ public class BoardGameDefault implements BoardGame {
     }
 
     public BoardGameDefault(Game game) {
-        this(game, Instant.now(), GameScore.ZERO_ZERO);
+        this(game, Instant.ofEpochMilli(System.currentTimeMillis()), GameScore.ZERO_ZERO);
     }
 
     @Override
@@ -49,5 +50,14 @@ public class BoardGameDefault implements BoardGame {
     @Override
     public int hashCode() {
         return Objects.hash(getGame(), getStartTime(), getScore());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", BoardGameDefault.class.getSimpleName() + "[", "]")
+                .add("game=" + game)
+                .add("startTime=" + startTime)
+                .add("score=" + score)
+                .toString();
     }
 }

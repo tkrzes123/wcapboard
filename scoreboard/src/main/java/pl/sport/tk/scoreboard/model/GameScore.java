@@ -19,4 +19,7 @@ public record GameScore(Score home, Score away) {
         return home.value() + away.value();
     }
 
+    public int getScoreDiff(GameScore other) {
+        return this.getTotalScoreValue() - other.getTotalScoreValue();
+    }
 }

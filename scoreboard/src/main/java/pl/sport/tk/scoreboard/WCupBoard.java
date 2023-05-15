@@ -27,9 +27,15 @@ public class WCupBoard implements Board {
 
     private BoardGame createBoardGameOrThrow(Game game, BoardGame boardGame) {
         if(boardGame == null) {
+            validateHomeAwayNotEquals(game);
             return boardGameFactory.startNewGame(game);
         }
         throw new GameAlreadyStartedException(game);
+    }
+
+    private void validateHomeAwayNotEquals(Game game) {
+        gamesInProgress.keySet().stream().filter(g -> g.isHomeOrAwayTeamEquals(game))
+                .findAny().ifPresent(g -> {throw new GameAlreadyStartedException(g);});
     }
 
     @Override
@@ -46,14 +52,14 @@ public class WCupBoard implements Board {
 
     @Override
     public Collection<BoardGame> getGamesByStartTime() {
-        Set<BoardGame> summaryByScore = new TreeSet<>(BoardGame.START_TIME_COMPARATOR);
+        Set<BoardGame> summaryByScore = new TreeSet<>(BoardGame.START_TIME_AND_GAME_COMPARATOR);
         summaryByScore.addAll(gamesInProgress.values());
         return summaryByScore;
     }
 
     @Override
     public Collection<BoardGame> getSummaryByScore() {
-        Set<BoardGame> summaryByScore = new TreeSet<>(BoardGame.SCORE_COMPARATOR);
+        Set<BoardGame> summaryByScore = new TreeSet<>(BoardGame.SUMMARY_COMPARATOR);
         summaryByScore.addAll(gamesInProgress.values());
         return summaryByScore;
     }
