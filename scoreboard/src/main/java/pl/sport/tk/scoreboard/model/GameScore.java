@@ -15,4 +15,8 @@ public record GameScore(Score home, Score away) {
         return new GameScore(home, away);
     }
 
+    public int getTotalScoreValue() {
+        return home.value() + away.value();
+    }
+
 }
