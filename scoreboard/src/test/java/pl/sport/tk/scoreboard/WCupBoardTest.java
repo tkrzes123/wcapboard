@@ -69,8 +69,7 @@ class WCupBoardTest {
         assertEquals("Game Argentina vs Mexico already started", exception.getMessage());
     }
 
-    //TODO fix
-    //@Test
+    @Test
     void updateTwoGamesScoreTest() {
 
         //given

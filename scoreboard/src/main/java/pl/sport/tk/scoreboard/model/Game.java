@@ -2,7 +2,7 @@ package pl.sport.tk.scoreboard.model;
 
 import java.util.Objects;
 
-public record Game(Team home, Team away) {
+public record Game(Team home, Team away) implements Comparable<Game> {
 
     public static Game of(Team home, Team away){
         return new Game(home, away);
@@ -11,5 +11,11 @@ public record Game(Team home, Team away) {
     public Game {
         Objects.requireNonNull(home, "Home team cannot be null");
         Objects.requireNonNull(away, "Away team cannot be null");
+    }
+
+    @Override
+    public int compareTo(Game o) {
+        int homeCompare = home.compareTo(o.home());
+        return homeCompare == 0 ? away.compareTo(o.away()) : homeCompare;
     }
 }

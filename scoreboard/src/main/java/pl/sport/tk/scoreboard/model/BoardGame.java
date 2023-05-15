@@ -4,13 +4,14 @@ import java.time.Instant;
 import java.util.Comparator;
 
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 
 public interface BoardGame {
 
     Comparator<BoardGame> SCORE_COMPARATOR =
-            comparing(BoardGame::getTotalScore).thenComparing(BoardGame::getStartTime);
+            comparingInt(BoardGame::getTotalScore).thenComparing(BoardGame::getStartTime).thenComparing(BoardGame::getGame);
 
-    Comparator<BoardGame> START_TIME_COMPARATOR = comparing(BoardGame::getStartTime);
+    Comparator<BoardGame> START_TIME_COMPARATOR = comparing(BoardGame::getStartTime).thenComparing(BoardGame::getGame);
 
     private int getTotalScore() {
         return getScore().getTotalScoreValue();
