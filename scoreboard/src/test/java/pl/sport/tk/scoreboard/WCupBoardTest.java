@@ -1,6 +1,5 @@
 package pl.sport.tk.scoreboard;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sport.tk.scoreboard.model.*;
@@ -12,7 +11,6 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class WCupBoardTest {
     private final Game argMex = Game.of(Team.of("Argentina"), Team.of("Mexico"));
@@ -65,7 +63,7 @@ class WCupBoardTest {
         //given
         BoardGame argMexAtBoard = board.startGame(argMex);
         GameAlreadyStartedException exception =
-                Assertions.assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(argMex));
+                assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(argMex));
 
         //when
         Collection<BoardGame> boardGames = board.getGamesByStartTime();
@@ -85,7 +83,7 @@ class WCupBoardTest {
         //given
         BoardGame argMexAtBoard = board.startGame(argMex);
         GameAlreadyStartedException exception =
-                Assertions.assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(mexArg));
+                assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(mexArg));
 
         //when
         Collection<BoardGame> boardGames = board.getGamesByStartTime();
@@ -105,7 +103,7 @@ class WCupBoardTest {
         //given
         BoardGame argMexAtBoard = board.startGame(argMex);
         GameAlreadyStartedException exception =
-                Assertions.assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(polArg));
+                assertThrowsExactly(GameAlreadyStartedException.class, () -> board.startGame(polArg));
 
         //when
         Collection<BoardGame> boardGames = board.getGamesByStartTime();
@@ -198,7 +196,7 @@ class WCupBoardTest {
         board.updateScore(ScoreUpdate.of(argMex, GameScore.of(two, zero)));
 
         IllegalScoreChangeException exception =
-                Assertions.assertThrowsExactly(IllegalScoreChangeException.class,
+                assertThrowsExactly(IllegalScoreChangeException.class,
                         () -> board.updateScore(ScoreUpdate.of(argMex, GameScore.of(four, zero))));
 
         Collection<BoardGame> boardGames = board.getGamesByStartTime();
@@ -222,7 +220,7 @@ class WCupBoardTest {
         board.updateScore(ScoreUpdate.of(argMex, GameScore.of(two, zero)));
 
         IllegalScoreChangeException exception =
-                Assertions.assertThrowsExactly(IllegalScoreChangeException.class,
+                assertThrowsExactly(IllegalScoreChangeException.class,
                         () -> board.updateScore(ScoreUpdate.of(argMex, GameScore.of(zero, three))));
 
         Collection<BoardGame> boardGames = board.getGamesByStartTime();
@@ -245,7 +243,7 @@ class WCupBoardTest {
         board.updateScore(ScoreUpdate.of(argMex, GameScore.of(one, zero)));
 
         IllegalScoreChangeException exception =
-                Assertions.assertThrowsExactly(IllegalScoreChangeException.class,
+                assertThrowsExactly(IllegalScoreChangeException.class,
                         () -> board.updateScore(ScoreUpdate.of(argMex, GameScore.of(zero, one))));
 
         Collection<BoardGame> boardGames = board.getGamesByStartTime();

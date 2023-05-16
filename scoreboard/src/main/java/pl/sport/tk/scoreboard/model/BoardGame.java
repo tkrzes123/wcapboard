@@ -8,11 +8,9 @@ import static java.util.Comparator.comparingInt;
 
 public interface BoardGame {
 
-    Comparator<BoardGame> SCORE_DESC_COMPARATOR = comparingInt(BoardGame::getTotalScore).reversed();
-    Comparator<BoardGame> START_TIME_DESC_COMPARATOR = comparing(BoardGame::getStartTime).reversed();
-
-    Comparator<BoardGame> SUMMARY_COMPARATOR = SCORE_DESC_COMPARATOR.thenComparing(START_TIME_DESC_COMPARATOR)
-                    .thenComparing(BoardGame::getGame);
+    Comparator<BoardGame> SUMMARY_COMPARATOR = comparingInt(BoardGame::getTotalScore).reversed()
+            .thenComparing(BoardGame::getStartTime, Comparator.reverseOrder())
+            .thenComparing(BoardGame::getGame);
 
     Comparator<BoardGame> START_TIME_AND_GAME_COMPARATOR = comparing(BoardGame::getStartTime)
             .thenComparing(BoardGame::getGame);
